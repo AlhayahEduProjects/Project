@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alhyah Schools</title>
+    <link rel="icon" href="assets/images/Screenshot_2024-12-31_151151-removebg-preview.png" type="image/png">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+* {
+    font-family: 'MyFont', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+* {
+    font-family: 'MyFont', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+        @font-face {
+  font-family: 'MyFont';
+  src: url('assets/fonts/ArabicUIDisplayBlack.otf') format('opentype');
+}
+
+
+
+body {
+  font-family: 'MyFont', sans-serif;
+  
+}
+
+        /* Motion blur effect class */
+        .motion-blur {
+            filter: blur(20px);
+            transition: filter 0.3s ease-out;
+        }
+
+        /* Animation classes */
+        .page-transition {
+            opacity: 0;
+            transform: scale(0.25);
+            filter: blur(10px);
+            transition: all 0.2s ease-out;
+        }
+
+        .page-transition.active {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+        }
+
+        /* Hero content initial state */
+
+        .hero-content {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-out;
+    }
+
+    .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9998; /* Just below the modal z-index */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+    .hero-content.active {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+
+    .page-transition {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 0.3s ease-out;
+        filter: blur(10px);
+    }
+
+    .page-transition.active {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+
+
+
+        .media-container {
+            position: relative;
+            width: 50%;
+            height: 100%;
+            height: 350px; /* Reduced from 400px */
+
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8f8f8;
+        }
+
+
+        
+        .swap-buttons {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem;
+    pointer-events: none;
+    direction: ltr; /* Force LTR direction always */
+}
+
+.swap-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s;
+    color: var(--dark);
+}
+
+.swap-button.prev {
+    order: 1;
+}
+
+.swap-button.next {
+    order: 2;
+}
+
+.swap-button:hover {
+    background: white;
+    transform: scale(1.1);
+}
+
+        .media-container img,
+        .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Changed from cover to contain */
+            display: none;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Update navigation for RTL */
+        .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+    direction: rtl; /* Restore RTL for navigation links */
+}
+
+
+        /* Update modal content for RTL */
+
+
+        /* Update form for RTL */
+        .form-group {
+            text-align: right;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --secondary: #1d4ed8;
+            --accent: #f43f5e;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        
+
+        .navbar {
+            position: relative;
+    background: rgba(255, 255, 255);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+}
+
+.nav-content {
+    max-width: 1900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    direction: ltr; /* Force LTR for the navbar layout */
+}
+
+
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--gradient);
+            transition: width 0.3s;
+        }
+
+
+
+        .logo {
+            font-family: 'MyFont', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    order: -1; /* Ensure logo stays first */
+    margin-right: auto; /* Push logo to the left */
+    direction: rtl; /* Restore RTL for logo text */
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    margin-left: 10px; /* Space between image and text */
+}
+
+.logo img:hover {
+                transform: scale(1.50);
+            }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+
+        
+        .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    overflow: hidden;
+    padding-bottom: 2rem;
+    padding-bottom: 0; /* Remove bottom padding to allow credits to touch bottom */
+}
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: var(--gradient);
+            animation: rotate 15s linear infinite;
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: auto; /* Push content up */
+
+}
+
+.hero-credits {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.0); /* Slightly more opaque */
+    backdrop-filter: blur(10px);
+    border-top: 0px solid rgba(0, 0, 0, 0.1); /* Add subtle border */
+    position: relative; /* Ensure it stays at bottom */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10; /* Ensure it stays above other content */
+    cursor: default;
+    animation: fadeInUp 1s ease-in-out;
+
+}
+
+.hero-credits .credits-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.hero-credit-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    width: 200px;
+    margin-bottom: 0; /* Remove bottom margin */
+}
+
+.hero-credit-card .credit-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--gradient);
+    border-radius: 50%;
+    margin: 0 auto 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-credit-card .credit-avatar i {
+    font-size: 1.2rem;
+    color: white;
+}
+
+.hero-credit-card h3 {
+    color: var(--dark);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.hero-credit-card p {
+    color: #64748b;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.hero-credit-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Media query for better mobile support */
+@media (max-width: 768px) {
+    .hero-credits {
+        padding: 0.75rem;
+    }
+    
+    .hero-credits .credits-grid {
+        gap: 1rem;
+    }
+    
+    .hero-credit-card {
+        width: 160px; /* Even smaller on mobile */
+        padding: 0.75rem;
+    }
+}
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .projects-page {
+            padding: 6rem 2rem;
+            min-height: 100vh;
+            background: var(--light);
+            display: none;
+        }
+
+        .projects-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .projects-header h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tab {
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 50px;
+    background: white;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 0.5rem;
+}
+
+.category-tab:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.category-tab.active {
+    background: var(--gradient);
+    color: white;
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            background: #ddd;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-category {
+            font-size: 0.9rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .project-content p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.modal-overlay.show {
+    opacity: 1;
+}
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+background-position: 24dvi;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 0.8s ease-in-out;
+        }
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 800px;
+    width: 90%;
+    position: relative;
+    opacity: 0;
+    transition: all 0.3s ease;
+    margin: auto;
+}
+
+.modal-content.modal-animate {
+    opacity: 1;
+}
+
+.modal-video {
+    width: 100%;
+    height: auto;
+}
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+            visibility: hidden;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            z-index: 2001;
+        }
+
+        .media-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8f8f8;
+}
+
+.media-container img,
+.media-container video {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: none;
+}
+
+       
+
+.credit-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.credit-card:hover {
+    transform: translateY(-10px);
+}
+
+.credit-avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient);
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.credit-avatar i {
+    font-size: 2rem;
+    color: white;
+}
+
+.credit-card h3 {
+    color: var(--dark);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.credit-card p {
+    color: #64748b;
+    margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .credits-title {
+        font-size: 2rem;
+    }
+    
+    .credits-grid {
+        grid-template-columns: 1fr;
+    }
+}
+        .swap-buttons {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+            pointer-events: none;
+        }
+
+        .swap-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.3s;
+            color: var(--dark);
+        }
+
+        .swap-button:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .language-switch {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .language-switch:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        #contact {
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            background: var(--light);
+            display: none;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+            .media-container {
+                height: 300px;
+            }
+        }
+
+        .about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0000, #0000);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .about-section.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .about-content h1 {
+    font-size: 5rem;
+    text-align: center;
+    color: #0a3bc0ad;
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+  
+  .about-content p {
+    font-size: 1.5rem;
+    color: #555;
+    max-width: 800px;
+  text-align: center;   
+   color: #0025b1 ;
+    margin-top: 20px;
+    line-height: 1.6;
+    animation: fadeInUp 1.5s ease-in-out;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div  class="logo">مدارس الحياة الاهلية <img src="assets/images/alhayah.jpg" ></div>
+ 
+            <div class="nav-links">
+                <a onclick="navigateTo('about')">نبذة عنا</a>
+                <a onclick="navigateTo('projects')">المشاريع</a>
+                <a onclick="navigateTo('home')">الرئيسية</a>
+
+
+
+                
+            </div>
+        </div>
+    </nav>
+
+    <section id="about" style="display: none;" class="about-section">
+    <div class="about-content">
+      <h1 data-translate="aboutTitle">نبذة عنا</h1>
+      <p data-translate="aboutDesc style text-align:center">
+        منصتنا تهدف إلى دعم ورعاية المبتكرين الشباب في مدارس الحياة، وتوفير بيئة حاضنة لهم لعرض إبداعاتهم وتفوقهم في مجالات متعددة مثل التكنولوجيا والفنون والعلوم. نحن نؤمن بقوة أن الشباب هم المستقبل، ومن خلال هذه المنصة، نسعى لإعطائهم الفرصة لتطوير مهاراتهم، تعزيز قدراتهم، والمشاركة في مشاريع إبداعية تبني شخصياتهم وتساهم في تحقيق طموحاتهم.
+
+نحرص على أن تكون منصتنا مصدر إلهام وتوجيه لهم، من خلال تسليط الضوء على أفكارهم وأعمالهم المبتكرة التي تساهم في تحسين المجتمع، وتفتح لهم أبوابًا جديدة من الفرص والتعاون. سنكون دائمًا معكم في كل خطوة، لدعم تطلعاتكم والمساهمة في تحقيق أهدافكم المستقبلية.
+      </p>
+      <p>أعداد: أ.معتز عبدالعزيز</p>
+      <p>برمجةالطالب: عبدالرحمن عيسى العوفي</p>
+    </div>
+  </section>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+        <h1>نصنع قادة المستقبل</h1>
+        <p>اكتشف عالماً من الابتكار والإبداع والتميز</p>
+        <a class="cta-button" onclick="navigateTo('projects')">عرض مشاريع الطلاب</a>
+    </div>
+    <div class="hero-credits">
+        <div class="credits-grid">
+            <div class="hero-credit-card">
+                <div class="credit-avatar">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h3>أ. معتز عبدالعزيز</h3>
+                <p>مشرف المشروع</p>
+            </div>
+            <div class="hero-credit-card">
+                <div class="credit-avatar">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>عبدالرحمن عيسى العوفي</h3>
+                <h3>اول ثانوي</h3>
+                <p> الموقع</p>
+            </div>
+            <div class="hero-credit-card">
+                <div class="credit-avatar">
+                    <i class="fas fa-school"></i>
+                </div>
+                <h3>المشروع مقدم  لـ</h3>
+                <p>مدارس الحياة الاهلية</p>
+            </div>
+        </div>
+    </div>
+</section>
+    <section class="projects-page" id="projects">
+        <div class="projects-header">
+            <h2>مشاريع الطلاب</h2>
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="filterProjects('all')">الكل</button>
+                <button class="category-tab" onclick="filterProjects('science')">علمية</button>
+                <button class="category-tab" onclick="filterProjects('art')">فنية</button>
+                <button class="category-tab" onclick="filterProjects('tech')">تقنية</button>
+                <button class="category-tab" onclick="filterProjects('culture')">ثقافية</button>
+            </div>
+        </div>
+        <div class="project-grid">
+        </div>
+                
+                
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="media-container">
+                <img id="modalImage" src="/api/placeholder/800/400" alt="Project Image">
+                <video id="modalVideo" controls>
+
+                    <source src="" type="video/mp4">
+                </video>
+                <div class="swap-buttons">
+                    <button class="swap-button" onclick="swapContent('prev')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="swap-button" onclick="swapContent('next')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
+    
+
+    <section id="contact">
+        <div class="projects-header">
+            <h2>Contact Us</h2>
+            <p>Get in touch with us for any inquiries</p>
+        </div>
+        <div class="contact-form">
+            <form onsubmit="event.preventDefault(); submitForm();">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+    const projects = [
+
+    {
+        category: 'ثقافية',
+        media: [
+            { type: 'image', src: 'assets/images/robot.png' },
+            { type: 'image', src: 'assets/images/robot2.png' },
+            { type: 'image', src: 'assets/images/robot3.png' },
+            { type: 'image', src: 'assets/images/robot4.png' },
+            { type: 'image', src: 'assets/images/robot5.png' },
+            { type: 'image', src: 'assets/images/robot6.png' },
+            { type: 'image', src: 'assets/images/robot7.png' },
+            { type: 'image', src: 'assets/images/robot8.png' },
+
+
+        ],
+        title: 'لغة برمجة LUA',
+        description: 'لغة برمجة Lua في محرك Roblox'
+    },
+    {
+        category: 'علمية',
+        media: [
+        { type: 'image', src: 'assets/images/لقطة الشاشة 2025-01-16 091820.png' },
+            { type: 'video', src: 'assets/videos/شرح.mp4' }
+        ],
+        title: 'شرح درس تقنية مع التعاون مع مادة الفيزياء',
+        description: 'قدم الطالب عبد الهادي الحربي في منطقة القصيم مشروعًا فنيًا يتمثل في رسم باب بطابع أثري على الكرتون، بهدف إبراز جمال التراث المعماري والمحافظة على الهوية الثقافية للمنطقة. يعكس العمل تفاصيل الأبواب القديمة بتصاميمها وزخارفها التقليدية، مما يسلط الضوء على أهمية التراث في تعزيز الانتماء والهوية الوطنية.'
+    },  
+    {
+        category: 'فنية',
+        media: [
+            { type: 'image', src: 'assets/images/عبدالهادي الحربي.jpg' }
+        ],
+        title: 'إبداع فني يجسّد جمال الأبواب التراثية على الكرتون',
+        description: 'قدم الطالب عبد الهادي الحربي في منطقة القصيم مشروعًا فنيًا يتمثل في رسم باب بطابع أثري على الكرتون، بهدف إبراز جمال التراث المعماري والمحافظة على الهوية الثقافية للمنطقة. يعكس العمل تفاصيل الأبواب القديمة بتصاميمها وزخارفها التقليدية، مما يسلط الضوء على أهمية التراث في تعزيز الانتماء والهوية الوطنية.'
+    },
+    {
+        category: 'tech',
+        media: [
+            { type: 'image', src: 'assets/images/لقطة الشاشة 2025-01-16 101439.png' }
+        ],
+        title: 'مسابقة أبطال الثقافة',
+        description:'واحدة من ابداعات وحدة التقنية في مدارس الحياة بالتعاون مع وحدة الانشطة الاثرائية لخلق روح حماسية بين الطلاب من خلال مسابقات اثرائية'
+    },
+    {
+        category: 'فنية',
+        media: [
+        { type: 'image', src: 'assets/images/Screenshot 2025-01-13 215917.png' },
+         { type: 'video', src: 'assets/videos/روبوت.mp4' },
+
+        ],
+        title: 'إبداع فني يجسّد جمال الأبواب التراثية على الكرتون',
+        description:'مشروع القيادة الذاتية للروبوت: ابتكار في مجال التكنولوجيا والذكاء الاصطناعي',
+
+        
+}];
+
+    let currentMediaIndex = 0;
+    let currentProjectMedia = [];
+        
+        // Animation for hero section
+        gsap.to('.hero-content', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power2.out'
+        });
+        
+        // Navigation functionality
+        function navigateTo(section) {
+            // Hide all sections
+            document.querySelectorAll('section').forEach(s => {
+                s.style.display = 'none';
+            });
+        
+            // Show selected section
+            const selectedSection = document.getElementById(section);
+            selectedSection.style.display = section === 'home' ? 'flex' : 'block';
+        
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Project filtering
+        function filterProjects(category) {
+    const cards = document.querySelectorAll('.project-card');
+    const tabs = document.querySelectorAll('.category-tab');
+
+    // Remove active class from all tabs
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    // Add active class to clicked tab
+    const activeTab = document.querySelector(`.category-tab[onclick="filterProjects('${category}')"]`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+    }
+
+    // Hide all cards with animation
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'scale(0.8) translateY(20px)';
+    });
+
+    setTimeout(() => {
+        cards.forEach(card => {
+            const cardCategory = card.dataset.category;
+            const shouldShow = 
+                category === 'all' || 
+                cardCategory === category || 
+                (category === 'art' && cardCategory === 'فنية') || 
+                (category === 'science' && cardCategory === 'علمية') || 
+                (category === 'tech' && cardCategory === 'تقنية') || 
+                (category === 'culture' && cardCategory === 'ثقافية');
+
+            card.style.display = shouldShow ? 'block' : 'none';
+        });
+
+        // Animate cards that should be visible
+        requestAnimationFrame(() => {
+            cards.forEach(card => {
+                if (card.style.display === 'block') {
+                    const delay = Array.from(cards).indexOf(card) * 100;
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1) translateY(0)';
+                    }, delay);
+                }
+            });
+        });
+    }, 300);
+}
+
+// Update the project card styles
+const projectStyles = `
+    .project-card {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    .project-card.show {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+
+    /* Add hover effect */
+    .project-card:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+`;
+
+// Add these styles when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Add project card animation styles
+    const style = document.createElement('style');
+    style.textContent = projectStyles;
+    document.head.appendChild(style);
+
+    // Initial render with animation
+    renderProjects();
+    
+    // Show all projects with animation
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.project-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'scale(1) translateY(0)';
+            }, index * 100);
+        });
+    }, 100);
+});
+
+
+        
+        // Modal functionality
+        function renderProjects() {
+    const projectGrid = document.querySelector('.project-grid');
+    projectGrid.innerHTML = ''; // Clear existing content
+
+    projects.forEach((project, index) => {
+        const thumbnailSrc = project.media.find(m => m.type === 'image')?.src || '/api/placeholder/400/300';
+        
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card';
+        projectCard.dataset.category = project.category;
+        
+        projectCard.innerHTML = `
+            <div class="project-image">
+                <img src="${thumbnailSrc}" alt="${project.title}">
+            </div>
+            <div class="project-content">
+                <div class="project-category">${project.category.charAt(0).toUpperCase() + project.category.slice(1)}</div>
+                <h3>${project.title}</h3>
+                <p>${project.description}</p>
+            </div>
+        `;
+
+        projectCard.addEventListener('click', () => openModal(project));
+        projectGrid.appendChild(projectCard);
+    });
+}
+
+// Add this to ensure projects are shown when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash === '#projects') {
+        navigateTo('projects');
+    }
+});
+        
+        // Function to Open Modal
+        function openModal(project) {
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalContent = document.querySelector('.modal-content');
+    const swapButtons = document.querySelector('.swap-buttons');
+    const navbar = document.querySelector('.navbar');
+
+    currentMediaIndex = 0;
+    currentProjectMedia = project.media;
+
+    // Add modal-open class to navbar
+    navbar.classList.add('modal-open');
+
+    displayMedia(currentMediaIndex);
+
+    swapButtons.style.display = currentProjectMedia.length > 1 ? 'flex' : 'none';
+    document.getElementById('modalTitle').textContent = project.title;
+    document.getElementById('modalDescription').textContent = project.description;
+    
+    // Show modal
+    modal.style.display = 'flex';
+    
+    // Force browser to recalculate layout
+    void modalContent.offsetHeight;
+    
+    // Add animation class
+    modalContent.classList.add('modal-animate');
+}
+
+function closeModal() {
+    const modal = document.getElementById('modal');
+    const modalVideo = document.getElementById('modalVideo');
+    const navbar = document.querySelector('.navbar');
+    
+    // Remove modal-open class from navbar
+    navbar.classList.remove('modal-open');
+    
+    // Stop video if playing
+    if (modalVideo) {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+        modalVideo.innerHTML = '';
+        modalVideo.load();
+    }
+    
+    modal.style.display = 'none';
+}
+
+// Update the window click handler
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+// Update the window click handler
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+
+
+        function displayMedia(index) {
+        const media = currentProjectMedia[index];
+        const modalImage = document.getElementById('modalImage');
+        const modalVideo = document.getElementById('modalVideo');
+
+        modalImage.style.display = 'none';
+        modalVideo.style.display = 'none';
+
+        if (media.type === 'image') {
+            modalImage.src = media.src;
+            modalImage.style.display = 'block';
+            
+            // Ensure image fits properly
+            modalImage.onload = function() {
+                const containerAspect = modalImage.parentElement.offsetWidth / modalImage.parentElement.offsetHeight;
+                const imageAspect = modalImage.naturalWidth / modalImage.naturalHeight;
+                
+                if (imageAspect > containerAspect) {
+                    modalImage.style.width = '100%';
+                    modalImage.style.height = 'auto';
+                } else {
+                    modalImage.style.width = 'auto';
+                    modalImage.style.height = '100%';
+                }
+            }
+        } else if (media.type === 'video') {
+            modalVideo.innerHTML = `<source src="${media.src}" type="video/mp4">`;
+            modalVideo.load();
+            modalVideo.style.display = 'block';
+        }
+    }
+
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        const modalVideo = document.getElementById('modalVideo');
+        
+        // Stop video if playing
+        if (modalVideo) {
+            modalVideo.pause();
+            modalVideo.currentTime = 0;
+            // Clear the source to ensure audio stops
+            modalVideo.innerHTML = '';
+            modalVideo.load();
+        }
+        
+        modal.style.display = 'none';
+    }
+
+    // Update the initial language and direction
+    document.addEventListener('DOMContentLoaded', () => {
+        currentLanguage = 'ar';
+        document.body.style.direction = 'rtl';
+        document.documentElement.lang = 'ar';
+        updatePageContent();
+        renderProjects();
+    });
+        
+        // Media swap functionality
+        function swapContent(direction) {
+    if (currentProjectMedia.length <= 1) return;
+
+    const isRTL = document.dir === 'rtl' || document.documentElement.dir === 'rtl';
+    
+    if (direction === 'next') {
+        currentMediaIndex = (currentMediaIndex + 1) % currentProjectMedia.length;
+    } else if (direction === 'prev') {
+        currentMediaIndex = (currentMediaIndex - 1 + currentProjectMedia.length) % currentProjectMedia.length;
+    }
+
+    displayMedia(currentMediaIndex);
+}
+
+        // Make project cards clickable
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const project = projects.find(p => p.title === card.querySelector('h3').textContent); // Find the correct project object
+                openModal(project); // Pass the full project object to openModal
+            });
+        });
+        
+        // Language toggle functionality
+        let currentLanguage = 'ar';
+        const translations = {
+    en: {
+        // Navigation
+        home: "Home",
+        projects: "Projects",
+        contact: "Contact",
+        
+        // Hero Section
+        title: "Shaping Tomorrow's Leaders",
+        subtitle: "Discover a world of innovation, creativity, and excellence",
+        
+        // Projects Section
+        allCategory: "All",
+        scienceCategory: "Science",
+        mathCategory: "Mathematics",
+        artCategory: "Art",
+        techCategory: "Technology",
+        
+        categories: {
+            tech: "Technology",
+            art: "Art",
+            science: "Science",
+            math: "Mathematics"
+        },
+
+        // Project Categories (for cards)
+        science: "Science",
+        mathematics: "Mathematics",
+        art: "Art",
+        technology: "Technology",
+        
+        
+        // Projects Content
+        ecosystemTitle: "Ecosystem Research",
+        ecosystemDesc: "An in-depth study of local ecosystem biodiversity and conservation.",
+        digitalExhibitionTitle: "Digital Exhibition",
+        digitalExhibitionDesc: "A collection of digital artwork exploring modern themes.",
+        
+        // Modal
+        closeButton: "Close",
+        prevButton: "Previous",
+        nextButton: "Next",
+        
+        // Contact Section
+        contactTitle: "Contact Us",
+        contactSubtitle: "Get in touch with us for any inquiries",
+        nameLabel: "Name",
+        emailLabel: "Email",
+        messageLabel: "Message",
+        sendButton: "Send Message",
+        formSuccess: "Form submitted successfully!",
+        
+        // Language Switch
+        languageSwitch: "عربي / English"
+    },
+    ar: {
+        // Navigation
+        home: "الرئيسية",
+        projects: "المشاريع",
+        contact: "اتصل بنا",
+        
+        // Hero Section
+        title: "نصنع قادة المستقبل",
+        subtitle: "اكتشف عالماً من الابتكار والإبداع والتميز",
+        viewProjects: "عرض مشاريع الطلاب",
+        
+        // Projects Section
+        projectsTitle: "مشاريع الطلاب",
+        allCategory: "الكل",
+        scienceCategory: "علمية",
+        artCategory: "فنية",
+        techCategory: "تقنية",
+
+
+        categories: {
+            tech: "تقنية",
+            art: "فن",
+            science: "علوم",
+            math: "رياضيات"
+        },
+        
+        // Project Categories (for cards)
+        science: "علوم",
+        mathematics: "رياضيات",
+        ART: "فن",
+        technology: "تقنية",
+        
+        // Projects Content
+
+        
+        // Modal
+        closeButton: "إغلاق",
+        prevButton: "السابق",
+        nextButton: "التالي",
+        
+        // Contact Section
+        contactTitle: "اتصل بنا",
+        contactSubtitle: "تواصل معنا لأي استفسارات",
+        nameLabel: "الاسم",
+        emailLabel: "البريد الإلكتروني",
+        messageLabel: "الرسالة",
+        sendButton: "إرسال الرسالة",
+        formSuccess: "تم إرسال النموذج بنجاح!",
+        
+        // Language Switch
+        languageSwitch: "English / عربي"
+    }
+};
+
+function toggleLanguage() {
+    currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
+    const dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.body.style.direction = dir;
+    document.documentElement.setAttribute('dir', dir);
+    
+    // Update all text content
+    updatePageContent();
+}
+
+
+
+function updatePageContent() {
+            const t = translations[currentLanguage];
+            
+            // Add blur effect
+            document.body.classList.add('motion-blur');
+            
+            setTimeout(() => {
+                // Update content
+                document.querySelectorAll('[data-translate]').forEach(element => {
+                    const key = element.dataset.translate;
+                    if (t[key]) {
+                        element.textContent = t[key];
+                    }
+                });
+                
+                // Update direction and language
+                document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+                document.documentElement.lang = currentLanguage;
+                
+                // Remove blur effect
+                document.body.classList.remove('motion-blur');
+                
+                // Re-render projects with current language
+                renderProjects();
+            }, 300);
+        }
+
+
+        function navigateTo(section) {
+    // Reset any existing animations first
+    document.querySelectorAll('section').forEach(s => {
+        s.classList.remove('active');
+        s.classList.remove('page-transition');
+        s.classList.remove('motion-blur');
+        
+        // Force DOM reflow
+        void s.offsetWidth;
+    });
+
+    // Add motion blur to current section
+    document.querySelectorAll('section').forEach(s => {
+        s.classList.add('motion-blur');
+    });
+
+    setTimeout(() => {
+        // Hide all sections
+        document.querySelectorAll('section').forEach(s => {
+            s.style.display = 'none';
+            s.classList.remove('motion-blur');
+        });
+
+        // Show and prepare new section
+        const selectedSection = document.getElementById(section);
+        selectedSection.style.display = section === 'home' ? 'flex' : 'block';
+        
+        // If navigating to projects section, initialize projects
+        if (section === 'projects') {
+            renderProjects();
+            // Set small timeout to ensure DOM is updated
+            setTimeout(() => {
+                filterProjects('all');
+                // Make sure "all" tab is active
+                document.querySelectorAll('.category-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector('.category-tab[onclick="filterProjects(\'all\')"]').classList.add('active');
+            }, 50);
+        }
+
+        selectedSection.classList.add('page-transition');
+        void selectedSection.offsetWidth;
+        
+        requestAnimationFrame(() => {
+            selectedSection.classList.add('active');
+        });
+
+        window.scrollTo(0, 0);
+    }, 300);
+}
+// Make sure your CSS for active state is correct
+function addStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .category-tab {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .category-tab.active {
+            background: var(--gradient);
+            color: white;
+        }
+
+        /* Add specific RTL support for buttons */
+        [dir="rtl"] .category-tab {
+            font-family: 'Arial', sans-serif; /* or your preferred Arabic font */
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Call this when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    addStyles();
+    // Initialize with 'all' category active
+    filterProjects('all');
+});
+        // Form submission
+        function submitForm() {
+            // Add your form submission logic here
+            alert('Form submitted successfully!');
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+// Revert to Arabic
+function revertToArabic() {
+    currentLanguage = 'ar'; // Set language to Arabic
+    document.body.style.direction = 'rtl'; // Set direction to RTL
+    
+    // Update all text content
+    updatePageContent(); 
+}
+
+// Call revertToArabic when the page is ready or when needed
+revertToArabic();
+
+
+        </script>
+        
+</body>
+</html>
